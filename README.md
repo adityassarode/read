@@ -1,221 +1,247 @@
-# Baya
-<p align="center">
+Baya
 
-<a href="https://pypi.org/project/baya/">
-  <img src="https://img.shields.io/pypi/v/baya?style=for-the-badge&color=blue&label=PyPI" />
-</a>
+<p align="center"><a href="https://pypi.org/project/baya/">
+  <img src="https://img.shields.io/pypi/v/baya?style=for-the-badge&color=blue&label=PyPI Version" />
+</a><a href="https://github.com/adityassarode/baya">
+  <img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github" />
+</a></p>
+---
 
-<a href="https://github.com/adityassarode">
-  <img src="https://img.shields.io/badge/GitHub-adityassarode-black?style=for-the-badge&logo=github&logoColor=white" />
-</a>
+🚀 Baya — Lightweight ML Orchestration & AutoML Framework
 
-<a href="https://www.instagram.com/adityassarode">
-  <img src="https://img.shields.io/badge/Instagram-@adityassarode-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-</a>
+Baya is a structured Machine Learning orchestration framework for reproducible, automated, and production-ready ML workflows.
 
-<a href="https://www.buymeacoffee.com/adityassarode">
-  <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-yellow?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" />
-</a>
+It combines:
 
-<a href="https://ko-fi.com/adityassarode">
-  <img src="https://img.shields.io/badge/Ko--fi-Support-ff5e5b?style=for-the-badge&logo=ko-fi&logoColor=white" />
-</a>
+AutoML
 
-</p>
-Baya is a structured, production-ready Machine Learning orchestration and AutoML framework designed for clear, reproducible, and extensible ML workflows.
+Natural language ML pipelines
 
-It supports both:
+Deterministic execution plans
 
-*   Minimal one-line training
-*   Fully modular ML pipelines
-*   AutoML with leaderboard tracking
-*   Exporting results to multiple formats
+Model deployment
 
-## Why Baya?
+Modular pipeline control
 
-*   Multiple abstraction layers (simple → advanced)
-*   Built-in AutoML engine
-*   DAG-based orchestration
-*   Experiment tracking
-*   Model registry
-*   CLI interface
-*   Export system (CSV, JSON, Excel, PDF, DOCX, PNG, etc.)
-*   Fully compatible with Pandas workflows
-*   Extensible and modular architecture
 
-## Installation
-```sh
-pip install baya
-```
-Runtime dependencies installed automatically:
+Designed for engineers, researchers, startups, and ML teams.
 
-*   pandas
-*   numpy
-*   scikit-learn
-*   scipy
-*   pyyaml
-*   matplotlib
 
-## Works With Pandas
+---
 
-Baya integrates directly with Pandas. You can freely mix Pandas + Baya:
+🔎 Why Baya?
 
-```python
-import pandas as pd
-from baya import quick_train
+Modern ML pipelines are often:
 
-df = pd.read_csv("data.csv")
+Hard to reproduce
 
-# Use pandas normally
-df["new_feature"] = df["feature"] * 2
+Poorly structured
 
-# Pass directly into Baya
-metrics = quick_train(
-    data=df,
-    target="Target",
-    model="linear_regression"
+Over-engineered
+
+Difficult to deploy
+
+
+Baya provides a clean orchestration layer on top of scikit-learn to make ML:
+
+Reproducible
+
+Structured
+
+Deterministic
+
+Deployable
+
+
+Without sacrificing flexibility.
+
+
+---
+
+🧠 Natural Language ML (.auto())
+
+Train models using structured instructions:
+
+from baya import Project
+
+p = Project()
+
+result = p.auto(
+    "use https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv "
+    "treat tip as target "
+    "train regression model using linear regression"
 )
 
-print(metrics)
-```
+print(result)
 
-You can:
-*   preprocess with pandas
-*   clean manually
-*   engineer features
-*   then hand over to Baya
+What Happens Automatically
 
-No restrictions.
+Dataset loading (CSV, URL, DataFrame)
 
-## API Layers
+Target detection
 
-Baya supports three levels of control.
+Task detection (classification/regression)
 
-### 1️⃣ Simple API — `quick_train()`
+Automatic categorical encoding
 
-Minimal lines.
+Safe pipeline ordering
 
-```python
+Train-test split
+
+Model training
+
+Evaluation
+
+Deterministic plan hashing
+
+
+This makes Baya a lightweight AutoML orchestration engine.
+
+
+---
+
+📊 Execution Plan Preview
+
+Preview generated pipelines before execution:
+
+plan = p.auto(
+    "use data.csv treat price as target train regression model",
+    preview=True
+)
+
+for step in plan.steps:
+    print(step.name)
+
+Baya builds a deterministic execution plan with hashing for reproducibility.
+
+
+---
+
+⚙️ Core Capabilities
+
+✔ Structured ML Orchestration
+
+Layered architecture wrapping a deterministic execution engine.
+
+✔ Auto Encoding
+
+Categorical columns are automatically encoded before model training.
+
+✔ Auto Task Detection
+
+Classification vs regression inferred automatically.
+
+✔ AutoML Engine
+
+Model comparison, leaderboard tracking, cross-validation.
+
+✔ Model Deployment
+
+Export models for production use.
+
+
+---
+
+🚀 Deployment
+
+REST Deployment
+
+p.auto(
+    "use data.csv treat target as target "
+    "train classification model "
+    "deploy as rest"
+)
+
+Generates a deployable REST bundle.
+
+
+---
+
+ONNX Export (Edge / C++ Ready)
+
+p.auto(
+    "use data.csv treat target as target "
+    "train regression model "
+    "deploy in c++"
+)
+
+Exports model as ONNX.
+
+
+---
+
+📦 Installation
+
+pip install baya
+
+Dependencies:
+
+pandas
+
+numpy
+
+scikit-learn
+
+matplotlib
+
+pyyaml
+
+
+
+---
+
+🧩 API Layers
+
+Baya supports three levels of abstraction.
+
+
+---
+
+1️⃣ Simple API
+
 from baya import quick_train
 
 metrics = quick_train(
     data="data.csv",
     target="Target",
-    model="linear_regression",
-    test_size=0.2
+    model="linear_regression"
 )
-```
 
-Supported data inputs:
-*   pandas DataFrame
-*   CSV path
-*   JSON path
-*   Excel path
 
-Automatically performs:
-*   load
-*   target selection
-*   split
-*   model creation
-*   train
-*   predict
-*   evaluate
+---
 
-Returns a metrics dictionary.
+2️⃣ Fluent API
 
-### 2️⃣ Fluent API — `Baya` Class
-
-Chainable interface.
-
-```python
 from baya import Baya
 
 metrics = (
     Baya("data.csv", target="Target")
-    .train("linear_regression")
+    .train("logistic_regression")
     .evaluate()
 )
-```
 
-Also works with a DataFrame:
-```python
-Baya(df, target="Target").train("logistic_regression").evaluate()
-```
-### 3️⃣ Advanced API — `Project`
 
-Full modular control.
+---
 
-```python
+3️⃣ Advanced Orchestration API
+
 from baya import Project
 
 project = Project()
-
 project.data.load("data.csv")
 project.data.set_target("Target")
-
-project.split.train_test(test_size=0.2)
-
+project.split.train_test()
 project.model.create("linear_regression")
 project.model.train()
+project.evaluate.evaluate_regressor()
 
-metrics = project.evaluate.evaluate_regressor()
-```
-## All Core Methods (Advanced API)
+Full modular control.
 
-#### Data:
-*   `project.data.load(path_or_dataframe)`
-*   `project.data.set_target("column")`
-*   `project.data.preview()`
 
-#### Split:
-*   `project.split.train_test(test_size=0.2)`
+---
 
-#### Model:
-*   `project.model.create("linear_regression")`
-*   `project.model.train()`
-*   `project.model.predict()`
+🤖 AutoML
 
-#### Evaluate:
-*   `project.evaluate.evaluate_regressor()`
-*   `project.evaluate.evaluate_classifier()`
-*   `project.evaluate.custom_metric(...)`
-
-#### Tracking:
-*   `project.tracker.start()`
-*   `project.tracker.log_metrics(...)`
-*   `project.tracker.finalize()`
-
-#### Export:
-*   `project.export.csv("results.csv")`
-*   `project.export.json("results.json")`
-*   `project.export.excel("results.xlsx")`
-*   `project.export.pdf("report.pdf")`
-*   `project.export.docx("report.docx")`
-*   `project.export.image("plot.png")`
-
-## Supported Export Formats
-
-Baya supports exporting to:
-*   `.csv`
-*   `.json`
-*   `.xlsx`
-*   `.pdf`
-*   `.docx`
-*   `.png`
-*   `.jpg`
-
-Exports available for:
-*   metrics
-*   predictions
-*   leaderboards
-*   visualizations
-*   reports
-
-## AutoML
-
-Automatic model selection.
-
-```python
 from baya import automl
 
 result = automl(
@@ -225,131 +251,111 @@ result = automl(
 
 print(result["best_model"])
 print(result["best_score"])
-```
 
-AutoML includes:
-*   Cross-validation
-*   Model comparison
-*   Leaderboard generation
-*   Best model selection
-*   Run tracking
-*   CV results storage
+Includes:
 
-### Leaderboard
+Cross-validation
 
-Stored in: `baya_runs/leaderboard.json`
+Model comparison
 
-Visualize:
-```python
-from baya.visualize import plot_leaderboard
-plot_leaderboard()
-```
+Leaderboard generation
 
-## Model Registry
-```python
-from baya import register_model, list_models
+Best model selection
 
-register_model("my_model", MyModelClass)
-print(list_models())
-```
-Built-in models:
-*   `linear_regression`
-*   `logistic_regression`
-*   `random_forest_classifier`
-*   `random_forest_regressor`
-*   `svm_classifier`
-*   `svm_regressor`
+Run tracking
 
-## Config-Based Reproducibility
 
-`workflow.yaml`:
-```yaml
-data_path: data.csv
-target: Target
-model: logistic_regression
-task: classification
-test_size: 0.2
-seed: 42
-```
-Run:
-```python
-from baya import Project
 
-project = Project.from_config("workflow.yaml")
-metrics = project.run()
-```
-## CLI Usage
-```sh
-baya info
-baya run workflow.yaml
-baya automl workflow.yaml
-baya registry list-models
-baya leaderboard
-baya visualize leaderboard
-```
-## Task Auto Detection
+---
 
-Automatically detects:
-*   Regression
-*   Classification
+📤 Export System
 
-Based on the target variable.
+Export metrics, predictions, and reports:
 
-## Architecture
+CSV
 
-Layered Design:
-```
+JSON
+
+Excel (XLSX)
+
+PDF
+
+DOCX
+
+PNG / JPG
+
+
+
+---
+
+🏗 Architecture
+
 Core Engine
 ↓
-Orchestration (DAG)
+Execution Plan Builder
 ↓
-Simple API
+Deterministic Plan Hashing
 ↓
-AutoML
+Project API
 ↓
-CLI
-```
-The Simple API wraps the advanced engine — no duplicated logic.
+AutoML / CLI / Simple API
 
-## Optional Dependencies
+All APIs wrap the same deterministic engine.
 
-Install extra features:
+No duplicated logic.
 
-Visualization extras:
-```sh
-pip install baya[viz]
-```
-Deep learning extras:
-```sh
-pip install baya[deep]
-```
-Development tools:
-```sh
-pip install baya[dev]
-```
-## Branding
-`baya info`
 
-Shows:
-*   Framework name
-*   Version
-*   Author
-*   Website
-*   Support link
+---
 
-Branding is non-intrusive.
+🔐 Reproducibility
 
-## Developer Setup
-```sh
-git clone <repo>
+Every .auto() run generates:
+
+Dataset hash
+
+Plan hash
+
+Ordered execution steps
+
+
+Ensuring reproducible ML workflows.
+
+
+---
+
+👨‍💻 Developer Setup
+
+git clone https://github.com/adityassarode/baya
 cd baya
 pip install -e .[dev]
 pytest
-```
-## License
 
-MIT License.
 
-## About
+---
+
+📈 Positioning
+
+Baya is ideal for:
+
+ML engineers building reproducible pipelines
+
+Startups needing fast ML deployment
+
+Data scientists wanting structured automation
+
+Teams needing deterministic ML workflows
+
+
+
+---
+
+📄 License
+
+MIT License
+
+
+---
+
+👤 Author
 
 Baya is built and maintained by Aditya Sarode, focused on scalable AI systems, ML architecture, and production-ready engineering.
